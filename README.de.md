@@ -1,6 +1,6 @@
-# mod-battlepass — Traumpfad (Dream Path)
+# mod-seasonpass — Traumpfad (Dream Path)
 
-**Ein kompletter, kostenloser Saison-Battle-Pass für AzerothCore (WotLK 3.3.5a) mit vollwertigem Ingame-UI-Addon.**
+**Ein kompletter, kostenloser Season Pass für AzerothCore (WotLK 3.3.5a) mit vollwertigem Ingame-UI-Addon.**
 
 🇬🇧 **[English version → README.md](README.md)**
 
@@ -13,7 +13,7 @@
 ## Was ist das?
 
 Der **Traumpfad** macht aus deinem 3.3.5a-Privatserver einen Saison-Server im Geiste von
-**Classic+ / Season of Discovery**: ein Battle Pass mit 100 Stufen, klassenübergreifende Fähigkeits-Runen,
+**Classic+ / Season of Discovery**: ein Season Pass mit 100 Stufen, klassenübergreifende Fähigkeits-Runen,
 rotierende Weltinhalte, Mystery-Kisten mit Live-Aufwertungs-Animation und ein **Prestige-/Paragon-Endgame
 im Diablo-Stil bis Prestige 300** mit mitskalierenden Gegnern.
 
@@ -144,10 +144,10 @@ Animation in der Bildschirmmitte (Farben rotieren, dann rastet die Qualität ein
 ```
 gen_season.py  ──►  16 SQL-Dateien (World-DB)  ──►  automatisch vom AzerothCore-Modul-Updater angewendet
       │
-      └──────►  BattlePassUI/BattlePassData.lua  (Addon-Daten — immer synchron zur DB)
+      └──────►  SeasonPassUI/SeasonPassData.lua  (Addon-Daten — immer synchron zur DB)
 
-mod-battlepass/src/   C++-Modul (2 Skripte + Header, keine CMakeLists nötig)
-BattlePassUI/         3.3.5a-Client-Addon (pures Lua, keine Bibliotheken)
+mod-seasonpass/src/   C++-Modul (2 Skripte + Header, keine CMakeLists nötig)
+SeasonPassUI/         3.3.5a-Client-Addon (pures Lua, keine Bibliotheken)
 ```
 
 - **Ein Generator, eine Wahrheit**: `gen_season.py` erzeugt SQL-Inhalte *und* Addon-Datendatei gleichzeitig —
@@ -171,25 +171,25 @@ meist Einzeiler).
 
 ```bash
 cd /pfad/zu/azerothcore/modules
-git clone https://github.com/teodorgross/mod-battlepass.git mod-battlepass
+git clone https://github.com/teodorgross/mod-seasonpass.git mod-seasonpass
 cd ../build
 cmake .
 make -j$(nproc) && make install
 ```
 
-*(Das Repo enthält auch Addon und Generator — der Server kompiliert nur `mod-battlepass/`.)*
+*(Das Repo enthält auch Addon und Generator — der Server kompiliert nur `mod-seasonpass/`.)*
 
 ### 2. Datenbank
 
 Nichts zu tun 🎉 — der Modul-SQL-Updater von AzerothCore wendet beim nächsten Worldserver-Start alles in
-`mod-battlepass/data/sql/` automatisch an (World-Inhalte + selbstmigrierende Charakter-Tabellen).
+`mod-seasonpass/data/sql/` automatisch an (World-Inhalte + selbstmigrierende Charakter-Tabellen).
 
 ### 3. Client-Addon
 
-Den Ordner **`BattlePassUI`** in den 3.3.5a-Client kopieren:
+Den Ordner **`SeasonPassUI`** in den 3.3.5a-Client kopieren:
 
 ```
-World of Warcraft/Interface/AddOns/BattlePassUI
+World of Warcraft/Interface/AddOns/SeasonPassUI
 ```
 
 Einloggen, Drachenknopf an der Minimap (oder die Saisonleiste) anklicken — fertig.
@@ -201,19 +201,19 @@ läuft ganz ohne Konfiguration:
 
 | Schlüssel | Standard | Bedeutung |
 |---|---|---|
-| `BattlePass.Enable` | 1 | Hauptschalter |
-| `BattlePass.PointsPerTier` | 100 | Punkte pro Stufe / pro Prestige-Level |
-| `BattlePass.MaxTier` | 100 | Stufen pro Saison |
-| `BattlePass.Points.Quest/Kill/EliteKill/BossKill/RareKill/LevelUp/DailyLogin` | 10/1/5/100/25/50/50 | Punktquellen |
-| `BattlePass.Chest.Enable` | 1 | Traumkisten |
-| `BattlePass.Chest.PityStepPct` | 5 | Kistenfieber-Schritt je Kiste ohne Episches |
-| `BattlePass.Prestige.Max` | 300 | Prestige-Obergrenze |
-| `BattlePass.Prestige.XPPctPerLevel` | 3 | Dauerhafter XP-Bonus je Prestige |
-| `BattlePass.Prestige.AutoGold` | 100000 | Kupfer je Auto-Prestige-Level |
-| `BattlePass.Paragon.PointsPerPrestige` | 2 | Traumschmiede-Punkte je Prestige |
-| `BattlePass.Paragon.CapPerStat` | 75 | Paragon-Cap je Wert |
-| `BattlePass.Paragon.MobScalePctPerPrestige` | 1 | Gegnerskalierung je Prestige |
-| `BattlePass.Runes.ResonancePct` | 2 | Runenresonanz je gravierter Buff-Rune |
+| `SeasonPass.Enable` | 1 | Hauptschalter |
+| `SeasonPass.PointsPerTier` | 100 | Punkte pro Stufe / pro Prestige-Level |
+| `SeasonPass.MaxTier` | 100 | Stufen pro Saison |
+| `SeasonPass.Points.Quest/Kill/EliteKill/BossKill/RareKill/LevelUp/DailyLogin` | 10/1/5/100/25/50/50 | Punktquellen |
+| `SeasonPass.Chest.Enable` | 1 | Traumkisten |
+| `SeasonPass.Chest.PityStepPct` | 5 | Kistenfieber-Schritt je Kiste ohne Episches |
+| `SeasonPass.Prestige.Max` | 300 | Prestige-Obergrenze |
+| `SeasonPass.Prestige.XPPctPerLevel` | 3 | Dauerhafter XP-Bonus je Prestige |
+| `SeasonPass.Prestige.AutoGold` | 100000 | Kupfer je Auto-Prestige-Level |
+| `SeasonPass.Paragon.PointsPerPrestige` | 2 | Traumschmiede-Punkte je Prestige |
+| `SeasonPass.Paragon.CapPerStat` | 75 | Paragon-Cap je Wert |
+| `SeasonPass.Paragon.MobScalePctPerPrestige` | 1 | Gegnerskalierung je Prestige |
+| `SeasonPass.Runes.ResonancePct` | 2 | Runenresonanz je gravierter Buff-Rune |
 
 ### Befehle
 
@@ -231,7 +231,7 @@ python gen_season.py
 ```
 
 SQL-Ordner und Addon-Ordner neu ausrollen — das ist die gesamte Content-Pipeline.
-Für Saison 2: `SEASON = 2` im Generator und `BattlePass.Season = 2` in der Config.
+Für Saison 2: `SEASON = 2` im Generator und `SeasonPass.Season = 2` in der Config.
 
 ---
 

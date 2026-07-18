@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 gen_season.py v4 — Eine Datenquelle für den kompletten Saison-Content von
-mod-battlepass v4 (Community-Pass, zweisprachig Deutsch/Englisch).
+mod-seasonpass v4 (Community-Pass, zweisprachig Deutsch/Englisch).
 
 Neu in v4: echte Umlaute, alle Namen zweisprachig (name/name_en, Items über
 item_template_locale), Zufallskisten (Pool per SELECT aus item_template,
@@ -13,8 +13,8 @@ Aufruf:  python gen_season.py
 import os
 
 BASE = os.path.dirname(os.path.abspath(__file__))
-SQL_WORLD = os.path.join(BASE, "mod-battlepass", "data", "sql", "db-world")
-ADDON = os.path.join(BASE, "BattlePassUI")
+SQL_WORLD = os.path.join(BASE, "mod-seasonpass", "data", "sql", "db-world")
+ADDON = os.path.join(BASE, "SeasonPassUI")
 
 SEASON = 1
 SEASON_NAME = "Ruf der Alptraumdrachen"
@@ -708,7 +708,7 @@ def esc(s):
     return s.replace("'", "''")
 
 def table_sql(name, columns, rows, comment):
-    out = ["-- mod-battlepass v4: %s" % comment,
+    out = ["-- mod-seasonpass v4: %s" % comment,
            "DROP TABLE IF EXISTS `%s`;" % name,
            "CREATE TABLE `%s` (" % name]
     out.append(",\n".join("  " + c for c in columns[0]))
@@ -751,7 +751,7 @@ def sql_rewards():
              "`name_en` VARCHAR(120) NOT NULL DEFAULT ''",
              "PRIMARY KEY (`season`,`tier`,`track`,`classmask`,`slot`)"],
             ["season", "tier", "track", "classmask", "slot", "type", "id", "count", "name", "name_en"])
-    return table_sql("battlepass_rewards", cols, rows,
+    return table_sql("seasonpass_rewards", cols, rows,
                      "Belohnungen Saison %d (beide Pfade kostenlos, zweisprachig)" % SEASON), len(rows)
 
 def clone_block(entry, source, name_en, name_de, quality, allowable_class, desc, no_reqs=False, no_prof=False):
@@ -778,7 +778,7 @@ def clone_block(entry, source, name_en, name_de, quality, allowable_class, desc,
     return b
 
 def sql_items():
-    out = ["-- mod-battlepass v4: Custom-Items (Basisname EN, deutsche Namen via item_template_locale)",
+    out = ["-- mod-seasonpass v4: Custom-Items (Basisname EN, deutsche Namen via item_template_locale)",
            "DELETE FROM `item_template` WHERE `entry` BETWEEN 900001 AND 900199;",
            "DELETE FROM `item_template_locale` WHERE `ID` BETWEEN 900001 AND 900199;"]
     n = 0
@@ -787,7 +787,7 @@ def sql_items():
         out.append("")
         out.append("-- ---- Klassenset %s ----" % cname)
         for slot, slotname, source, name_de, name_en in CLASS_SETS[cid]:
-            desc = "Battle Pass Saison %d - Klassenset %s (%s), levelt bis 80 mit" % (SEASON, cname, slotname)
+            desc = "Season Pass Saison %d - Klassenset %s (%s), levelt bis 80 mit" % (SEASON, cname, slotname)
             out.extend(clone_block(set_entry(cid, slot), source, name_en, name_de, 4, mask, desc, no_prof=True))
             n += 1
     out.append("")
@@ -798,7 +798,7 @@ def sql_items():
     out.append("")
     out.append("-- ---- Mount-Klone ohne Anforderungen ----")
     for source, (entry, name_de, name_en) in sorted(MOUNT_CLONES.items(), key=lambda kv: kv[1][0]):
-        desc = "Battle Pass Saison %d - Saisonversion ohne Anforderungen" % SEASON
+        desc = "Season Pass Saison %d - Saisonversion ohne Anforderungen" % SEASON
         out.extend(clone_block(entry, source, name_en, name_de, 4, 32767, desc, no_reqs=True))
         n += 1
     out.append("DROP TEMPORARY TABLE IF EXISTS `bp_tmp`;")
@@ -807,11 +807,11 @@ def sql_items():
     return "\n".join(out) + "\n", n
 
 def sql_chest_loot():
-    out = ["-- mod-battlepass v5: kuratierter Zufallskisten-Beutepool (100 Einträge).",
+    out = ["-- mod-seasonpass v5: kuratierter Zufallskisten-Beutepool (100 Einträge).",
            "-- kind: 0=Item, 1=Gold (id=Kupfer), 2=Verlorene Rune (lehrt zufällige Runen-Fähigkeit).",
-           "-- weight gilt innerhalb der Rarität je Kiste; battlepass_chest_rarity = Promille-Chancen.",
-           "DROP TABLE IF EXISTS `battlepass_chest_loot`;",
-           "CREATE TABLE `battlepass_chest_loot` (",
+           "-- weight gilt innerhalb der Rarität je Kiste; seasonpass_chest_rarity = Promille-Chancen.",
+           "DROP TABLE IF EXISTS `seasonpass_chest_loot`;",
+           "CREATE TABLE `seasonpass_chest_loot` (",
            "  `chest` TINYINT UNSIGNED NOT NULL,",
            "  `rarity` TINYINT UNSIGNED NOT NULL,",
            "  `kind` TINYINT UNSIGNED NOT NULL DEFAULT 0,",
@@ -822,7 +822,7 @@ def sql_chest_loot():
            "  `name_en` VARCHAR(120) NOT NULL DEFAULT '',",
            "  PRIMARY KEY (`chest`,`rarity`,`kind`,`id`)",
            ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
-           "INSERT INTO `battlepass_chest_loot` (`chest`,`rarity`,`kind`,`id`,`count`,`weight`,`name`,`name_en`) VALUES"]
+           "INSERT INTO `seasonpass_chest_loot` (`chest`,`rarity`,`kind`,`id`,`count`,`weight`,`name`,`name_en`) VALUES"]
     rows = []
     for rar, kind, iid, cnt, de, en, ws in CHEST_LOOT:
         for chest in (1, 2, 3):
@@ -831,14 +831,14 @@ def sql_chest_loot():
                 rows.append("(%d,%d,%d,%d,%d,%d,'%s','%s')" % (chest, rar, kind, iid, cnt, w, esc(de), esc(en)))
     out.append(",\n".join(rows) + ";")
     out += ["",
-            "DROP TABLE IF EXISTS `battlepass_chest_rarity`;",
-            "CREATE TABLE `battlepass_chest_rarity` (",
+            "DROP TABLE IF EXISTS `seasonpass_chest_rarity`;",
+            "CREATE TABLE `seasonpass_chest_rarity` (",
             "  `chest` TINYINT UNSIGNED NOT NULL,",
             "  `rarity` TINYINT UNSIGNED NOT NULL,",
             "  `chance` INT UNSIGNED NOT NULL COMMENT 'Promille',",
             "  PRIMARY KEY (`chest`,`rarity`)",
             ") ENGINE=InnoDB;",
-            "INSERT INTO `battlepass_chest_rarity` (`chest`,`rarity`,`chance`) VALUES"]
+            "INSERT INTO `seasonpass_chest_rarity` (`chest`,`rarity`,`chance`) VALUES"]
     rrows = []
     for chest, chances in sorted(CHEST_RARITY.items()):
         for rar, ch in enumerate(chances, 1):
@@ -853,7 +853,7 @@ def sql_weekly():
              "PRIMARY KEY (`id`)"],
             ["id", "type", "goal", "points", "name", "name_en"])
     rows = ["(%d,%d,%d,%d,'%s','%s')" % (i, t, g, p, esc(n), esc(ne)) for i, t, g, p, n, ne in WEEKLY]
-    return table_sql("battlepass_weekly", cols, rows, "40 Wochenziel-Definitionen (zweisprachig)")
+    return table_sql("seasonpass_weekly", cols, rows, "40 Wochenziel-Definitionen (zweisprachig)")
 
 def sql_runes():
     cols = (["`id` INT UNSIGNED NOT NULL", "`classmask` INT UNSIGNED NOT NULL DEFAULT 0",
@@ -863,7 +863,7 @@ def sql_runes():
              "PRIMARY KEY (`id`)"],
             ["id", "classmask", "kind", "spell", "cost", "name", "name_en"])
     rows = ["(%d,0,%d,%d,%d,'%s','%s')" % (i, k, s, c, esc(n), esc(ne)) for i, k, s, c, n, ne, _, _, _ in RUNES]
-    return table_sql("battlepass_runes", cols, rows, "24 Runen (12 Dauerbuffs + 12 neue Fähigkeiten)")
+    return table_sql("seasonpass_runes", cols, rows, "24 Runen (12 Dauerbuffs + 12 neue Fähigkeiten)")
 
 def sql_worldboss():
     cols = (["`id` INT UNSIGNED NOT NULL", "`entry` INT UNSIGNED NOT NULL",
@@ -876,7 +876,7 @@ def sql_worldboss():
             ["id", "entry", "map", "x", "y", "z", "o", "name", "zone", "zone_en"])
     rows = ["(%d,%d,%d,%.1f,%.1f,%.1f,%.1f,'%s','%s','%s')" % (i, e, m, x, y, z, o, esc(n), esc(zn), esc(zne))
             for i, e, m, x, y, z, o, n, zn, zne in WORLDBOSSES]
-    return table_sql("battlepass_worldboss", cols, rows, "Weltboss-Rotation (Koordinaten per .gps anpassbar)")
+    return table_sql("seasonpass_worldboss", cols, rows, "Weltboss-Rotation (Koordinaten per .gps anpassbar)")
 
 def sql_zones():
     cols = (["`id` INT UNSIGNED NOT NULL", "`zone` INT UNSIGNED NOT NULL",
@@ -884,7 +884,7 @@ def sql_zones():
              "PRIMARY KEY (`id`)"],
             ["id", "zone", "name", "name_en"])
     rows = ["(%d,%d,'%s','%s')" % (i, z, esc(n), esc(ne)) for i, z, n, ne in ZONES]
-    return table_sql("battlepass_zones", cols, rows, "Zonen-Events")
+    return table_sql("seasonpass_zones", cols, rows, "Zonen-Events")
 
 def sql_bounty():
     cols = (["`id` INT UNSIGNED NOT NULL", "`entry` INT UNSIGNED NOT NULL",
@@ -895,7 +895,7 @@ def sql_bounty():
             ["id", "entry", "points", "name", "name_en", "zone", "zone_en"])
     rows = ["(%d,%d,%d,'%s','%s','%s','%s')" % (i, e, p, esc(n), esc(ne), esc(z), esc(ze))
             for i, e, p, n, ne, z, ze in BOUNTIES]
-    return table_sql("battlepass_bounty", cols, rows, "Kopfgeld des Tages")
+    return table_sql("seasonpass_bounty", cols, rows, "Kopfgeld des Tages")
 
 def sql_dungeons():
     cols = (["`id` INT UNSIGNED NOT NULL", "`map` INT UNSIGNED NOT NULL",
@@ -904,7 +904,7 @@ def sql_dungeons():
              "PRIMARY KEY (`id`)"],
             ["id", "map", "points", "name", "name_en"])
     rows = ["(%d,%d,%d,'%s','%s')" % (i, m, p, esc(n), esc(ne)) for i, m, p, n, ne in DUNGEONS]
-    return table_sql("battlepass_dungeons", cols, rows, "Dungeon der Woche")
+    return table_sql("seasonpass_dungeons", cols, rows, "Dungeon der Woche")
 
 def sql_discoveries():
     cols = (["`id` INT UNSIGNED NOT NULL", "`zone` INT UNSIGNED NOT NULL",
@@ -913,7 +913,7 @@ def sql_discoveries():
              "PRIMARY KEY (`id`)"],
             ["id", "zone", "points", "name", "name_en"])
     rows = ["(%d,%d,%d,'%s','%s')" % (i, z, DISCOVERY_POINTS, esc(n), esc(ne)) for i, z, n, ne in DISCOVERIES]
-    return table_sql("battlepass_discoveries", cols, rows, "Verlorene Orte (Entdeckungs-System)")
+    return table_sql("seasonpass_discoveries", cols, rows, "Verlorene Orte (Entdeckungs-System)")
 
 def sql_achievements():
     cols = (["`id` INT UNSIGNED NOT NULL", "`kind` TINYINT UNSIGNED NOT NULL",
@@ -922,7 +922,7 @@ def sql_achievements():
              "PRIMARY KEY (`id`)"],
             ["id", "kind", "goal", "points", "name", "name_en"])
     rows = ["(%d,%d,%d,%d,'%s','%s')" % (i, k, g, p, esc(n), esc(ne)) for i, k, g, p, n, ne in ACHIEVEMENTS]
-    return table_sql("battlepass_achievements", cols, rows, "20 Saison-Erfolge")
+    return table_sql("seasonpass_achievements", cols, rows, "20 Saison-Erfolge")
 
 def sql_supplies():
     cols = (["`id` INT UNSIGNED NOT NULL", "`item` INT UNSIGNED NOT NULL",
@@ -932,7 +932,7 @@ def sql_supplies():
              "PRIMARY KEY (`id`)"],
             ["id", "item", "count", "points", "gold"])
     rows = ["(%d,%d,%d,%d,%d)" % s for s in SUPPLIES]
-    return table_sql("battlepass_supplies", cols, rows, "Versorgungsauftraege (SoD Waylaid Supplies)")
+    return table_sql("seasonpass_supplies", cols, rows, "Versorgungsauftraege (SoD Waylaid Supplies)")
 
 def sql_fish():
     cols = (["`id` INT UNSIGNED NOT NULL", "`item` INT UNSIGNED NOT NULL",
@@ -942,7 +942,7 @@ def sql_fish():
              "PRIMARY KEY (`id`)"],
             ["id", "item", "count", "points", "gold"])
     rows = ["(%d,%d,%d,%d,%d)" % f for f in FISH]
-    return table_sql("battlepass_fish", cols, rows, "Angelauftraege (taeglich rotierender Fisch)")
+    return table_sql("seasonpass_fish", cols, rows, "Angelauftraege (taeglich rotierender Fisch)")
 
 def sql_teleports():
     cols = (["`id` INT UNSIGNED NOT NULL",
@@ -953,7 +953,7 @@ def sql_teleports():
             ["id", "name", "name_en", "map", "x", "y", "z", "o"])
     rows = ["(%d,'%s','%s',%d,%.1f,%.1f,%.1f,%.2f)" % (i, esc(n), esc(ne), m, x, y, z, o)
             for i, n, ne, m, x, y, z, o in TELEPORTS]
-    return table_sql("battlepass_teleports", cols, rows, "Teleport-Ziele der Traumpfadhüterin")
+    return table_sql("seasonpass_teleports", cols, rows, "Teleport-Ziele der Traumpfadhüterin")
 
 def sql_mutators():
     cols = (["`id` INT UNSIGNED NOT NULL", "`kind` TINYINT UNSIGNED NOT NULL",
@@ -962,7 +962,7 @@ def sql_mutators():
              "PRIMARY KEY (`id`)"],
             ["id", "kind", "value", "name", "name_en"])
     rows = ["(%d,%d,%d,'%s','%s')" % (i, k, v, esc(n), esc(ne)) for i, k, v, n, ne in MUTATORS]
-    return table_sql("battlepass_mutators", cols, rows, "Wochen-Mutatoren (Open-World-Affixe)")
+    return table_sql("seasonpass_mutators", cols, rows, "Wochen-Mutatoren (Open-World-Affixe)")
 
 def shop_rows():
     """Alle Shop-Zeilen: erst die Traumkiste (kind 1), dann Items (kind 0).
@@ -985,10 +985,10 @@ def shop_rows():
     return rows
 
 def sql_vendor():
-    out = ["-- mod-battlepass v4: Saisonhändlerinnen-Shop (Kauf im Fenster: .bp buy <slot>)",
+    out = ["-- mod-seasonpass v4: Saisonhändlerinnen-Shop (Kauf im Fenster: .bp buy <slot>)",
            "-- kind: 0=Item (id=item_template), 1=Mystery-Box (id=Kistenstufe 1-3)",
-           "DROP TABLE IF EXISTS `battlepass_shop`;",
-           "CREATE TABLE `battlepass_shop` (",
+           "DROP TABLE IF EXISTS `seasonpass_shop`;",
+           "CREATE TABLE `seasonpass_shop` (",
            "  `slot` INT UNSIGNED NOT NULL,",
            "  `kind` TINYINT UNSIGNED NOT NULL DEFAULT 0,",
            "  `item` INT UNSIGNED NOT NULL,",
@@ -996,7 +996,7 @@ def sql_vendor():
            "  `price` INT UNSIGNED NOT NULL DEFAULT 10000 COMMENT 'Kupfer',",
            "  PRIMARY KEY (`slot`)",
            ") ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;",
-           "INSERT INTO `battlepass_shop` (`slot`,`kind`,`item`,`count`,`price`) VALUES"]
+           "INSERT INTO `seasonpass_shop` (`slot`,`kind`,`item`,`count`,`price`) VALUES"]
     rows = ["(%d,%d,%d,%d,%d)" % r[:5] for r in shop_rows()]
     out.append(",\n".join(rows) + ";")
     out.append("")
@@ -1215,23 +1215,23 @@ def main():
     items, n_items = sql_items()
 
     files = {
-        os.path.join(SQL_WORLD, "battlepass_rewards.sql"): rewards,
-        os.path.join(SQL_WORLD, "battlepass_items.sql"): items,
-        os.path.join(SQL_WORLD, "battlepass_chest_loot.sql"): sql_chest_loot(),
-        os.path.join(SQL_WORLD, "battlepass_weekly.sql"): sql_weekly(),
-        os.path.join(SQL_WORLD, "battlepass_runes.sql"): sql_runes(),
-        os.path.join(SQL_WORLD, "battlepass_worldboss.sql"): sql_worldboss(),
-        os.path.join(SQL_WORLD, "battlepass_zones.sql"): sql_zones(),
-        os.path.join(SQL_WORLD, "battlepass_bounty.sql"): sql_bounty(),
-        os.path.join(SQL_WORLD, "battlepass_dungeons.sql"): sql_dungeons(),
-        os.path.join(SQL_WORLD, "battlepass_discoveries.sql"): sql_discoveries(),
-        os.path.join(SQL_WORLD, "battlepass_achievements.sql"): sql_achievements(),
-        os.path.join(SQL_WORLD, "battlepass_supplies.sql"): sql_supplies(),
-        os.path.join(SQL_WORLD, "battlepass_fish.sql"): sql_fish(),
-        os.path.join(SQL_WORLD, "battlepass_teleports.sql"): sql_teleports(),
-        os.path.join(SQL_WORLD, "battlepass_mutators.sql"): sql_mutators(),
-        os.path.join(SQL_WORLD, "battlepass_vendor.sql"): sql_vendor(),
-        os.path.join(ADDON, "BattlePassData.lua"): lua_data(),
+        os.path.join(SQL_WORLD, "seasonpass_rewards.sql"): rewards,
+        os.path.join(SQL_WORLD, "seasonpass_items.sql"): items,
+        os.path.join(SQL_WORLD, "seasonpass_chest_loot.sql"): sql_chest_loot(),
+        os.path.join(SQL_WORLD, "seasonpass_weekly.sql"): sql_weekly(),
+        os.path.join(SQL_WORLD, "seasonpass_runes.sql"): sql_runes(),
+        os.path.join(SQL_WORLD, "seasonpass_worldboss.sql"): sql_worldboss(),
+        os.path.join(SQL_WORLD, "seasonpass_zones.sql"): sql_zones(),
+        os.path.join(SQL_WORLD, "seasonpass_bounty.sql"): sql_bounty(),
+        os.path.join(SQL_WORLD, "seasonpass_dungeons.sql"): sql_dungeons(),
+        os.path.join(SQL_WORLD, "seasonpass_discoveries.sql"): sql_discoveries(),
+        os.path.join(SQL_WORLD, "seasonpass_achievements.sql"): sql_achievements(),
+        os.path.join(SQL_WORLD, "seasonpass_supplies.sql"): sql_supplies(),
+        os.path.join(SQL_WORLD, "seasonpass_fish.sql"): sql_fish(),
+        os.path.join(SQL_WORLD, "seasonpass_teleports.sql"): sql_teleports(),
+        os.path.join(SQL_WORLD, "seasonpass_mutators.sql"): sql_mutators(),
+        os.path.join(SQL_WORLD, "seasonpass_vendor.sql"): sql_vendor(),
+        os.path.join(ADDON, "SeasonPassData.lua"): lua_data(),
     }
     for path, content in files.items():
         with open(path, "w", newline="\n", encoding="utf-8") as f:

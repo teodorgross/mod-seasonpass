@@ -1,9 +1,0 @@
-## Interface: 30300
-## Title: Battle Pass UI
-## Notes: Community-Battle-Pass: Saisonleiste, Minimap-Knopf, 6 Tabs, DE/EN (mod-battlepass v4, AzerothCore)
-## Version: 4.0
-## SavedVariables: BattlePassDB
-
-BattlePassData.lua
-BattlePassHUD.lua
-BattlePass.lua

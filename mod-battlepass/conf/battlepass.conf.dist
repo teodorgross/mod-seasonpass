@@ -1,0 +1,130 @@
+[worldserver]
+
+########################################
+# mod-battlepass v3 — Konfiguration
+# Community-Pass: ALLES kostenlos, beide Pfade fuer alle.
+########################################
+
+BattlePass.Enable = 1
+BattlePass.Season = 1
+BattlePass.PointsPerTier = 100
+BattlePass.MaxTier = 100
+
+########################################
+# Punktequellen
+########################################
+BattlePass.Points.Quest = 10
+BattlePass.Points.Kill = 1
+BattlePass.Points.EliteKill = 5
+BattlePass.Points.BossKill = 100
+BattlePass.Points.RareKill = 25
+BattlePass.Points.LevelUp = 50
+BattlePass.Points.DailyLogin = 50
+BattlePass.Points.PvPKill = 10
+BattlePass.Points.DuelWin = 5
+
+# Anti-Farm: dasselbe PvP-Opfer zaehlt nur alle X Sekunden
+BattlePass.PvP.VictimCooldown = 300
+
+# Login-Serie: Extra-Punkte pro Serientag (gedeckelt bei 10 Tagen)
+BattlePass.Streak.BonusPerDay = 5
+
+########################################
+# Prestige (ab Maximalstufe: Pass neu starten, Stern verdienen)
+########################################
+BattlePass.Prestige.Enable = 1
+
+########################################
+# Bonus-Wochenende (Samstag + Sonntag, Serverzeit)
+########################################
+BattlePass.Weekend.Enable = 1
+BattlePass.Weekend.PointsPercent = 200
+BattlePass.Weekend.XPPercent = 150
+
+########################################
+# Levelkisten (alle 10 Level: Gold, ab 20 zusaetzlich Tasche per Post)
+########################################
+BattlePass.LevelChest.Enable = 1
+BattlePass.LevelChest.GoldPer10Levels = 50000
+BattlePass.LevelChest.BagItem = 21841
+
+########################################
+# Wochenziele (3 rotierende Aufgaben pro Woche, aus 40 Definitionen)
+########################################
+BattlePass.Weekly.Enable = 1
+
+########################################
+# Runen (12 Dauerbuffs + 12 NEUE Faehigkeiten, Kauf bei Runenmeisterin Sela)
+########################################
+BattlePass.Runes.Enable = 1
+# Basis-Slots; Extra-Slots kommen automatisch ab BP-Stufe 25/50/75
+BattlePass.Runes.BaseSlots = 3
+
+########################################
+# Weltboss-Rotation (Alptraumdrachen & Co, siehe battlepass_worldboss)
+########################################
+BattlePass.WorldBoss.Enable = 1
+BattlePass.WorldBoss.IntervalHours = 6
+BattlePass.WorldBoss.DespawnMinutes = 120
+BattlePass.WorldBoss.BonusPoints = 250
+# Weltbuff fuer ALLE Online-Spieler beim Boss-Kill (22888 = Schlachtruf der
+# Drachentoeter, 0 = aus)
+BattlePass.WorldBoss.WorldBuffSpell = 22888
+
+########################################
+# Zonen-Event (rotiert, doppelte Punkte in der aktiven Zone)
+########################################
+BattlePass.ZoneEvent.Enable = 1
+BattlePass.ZoneEvent.RotationHours = 3
+BattlePass.ZoneEvent.PointsPercent = 200
+
+########################################
+# Kopfgeld des Tages / Dungeon der Woche / Entdeckungen / Erfolge
+########################################
+BattlePass.Bounty.Enable = 1
+BattlePass.DungeonWeek.Enable = 1
+BattlePass.Discoveries.Enable = 1
+BattlePass.Achievements.Enable = 1
+
+# Traumtausch: 1x pro Woche ein Wochenziel neu wuerfeln (0/1)
+BattlePass.Weekly.RerollEnable = 1
+
+########################################
+# Zufallskisten (Pool: battlepass_chest_loot, 800+ Items aus deiner DB)
+# Nach Erreichen der Maximalstufe droppen Kisten von Gegnern — Endlos-Endgame!
+########################################
+BattlePass.Chest.Enable = 1
+BattlePass.Chest.DropChanceKillPct = 2
+BattlePass.Chest.DropChanceElitePct = 10
+BattlePass.Chest.DropChanceBossPct = 100
+# Chance, dass ein Boss eine legendaere statt epische Kiste gibt
+BattlePass.Chest.LegendaryFromBossPct = 10
+# Kistenfieber (Pity): Basis-Epicchance pro Item und Steigerung pro Kiste ohne Episches
+BattlePass.Chest.EpicChanceBasePct = 15
+BattlePass.Chest.PityStepPct = 5
+
+########################################
+# Traumsturm (zufaellige 15-Minuten-Stunde: dreifache Punkte)
+########################################
+BattlePass.Storm.Enable = 1
+BattlePass.Storm.PointsPercent = 300
+
+########################################
+# Saison-Erbe: permanenter Punktebonus pro Prestige-Stern (Prozent)
+########################################
+BattlePass.Legacy.PointsPercentPerPrestige = 2
+
+########################################
+# Wochen-Mutatoren (Open-World-Affixe, siehe battlepass_mutators)
+########################################
+BattlePass.Mutators.Enable = 1
+
+########################################
+# Sonstiges
+########################################
+BattlePass.AnnounceTier = 1
+BattlePass.AnnounceRareKill = 1
+
+# Playerbots vom Battle Pass ausschliessen (Performance!)
+BattlePass.IgnoreBots = 1
+BattlePass.BotAccountPrefixes = RNDBOT,ADDCLASS

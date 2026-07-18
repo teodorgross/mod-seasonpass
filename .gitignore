@@ -1,0 +1,10 @@
+# Release-Archive
+*.zip
+
+# Python
+__pycache__/
+*.pyc
+
+# OS-Kram
+Thumbs.db
+.DS_Store

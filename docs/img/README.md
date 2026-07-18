@@ -13,5 +13,6 @@ Drop the screenshots referenced by the READMEs here, using these file names:
 | `prestige.png` | Prestige tab (Dream Forge paragon stats) |
 | `shop.png` | Shop tab with the Dream Chest |
 | `welcome.png` | Rewards tab with the welcome-package tooltip |
+| `prestige-level.png` | Portrait + character sheet showing the prestige level |
 
 PNG or JPG, any resolution — GitHub scales them in the tables.

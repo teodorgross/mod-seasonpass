@@ -37,6 +37,10 @@ Saison 1: **„Ruf der Alptraumdrachen"** (*Call of the Nightmare Dragons*).
 |---|---|---|
 | ![Prestige](docs/img/prestige.png) | ![Shop](docs/img/shop.png) | ![Willkommen](docs/img/welcome.png) |
 
+| Prestige ersetzt die Levelanzeige — Porträt & Charakterfenster |
+|---|
+| ![Prestige-Level](docs/img/prestige-level.png) |
+
 ---
 
 ## Feature-Überblick — wirklich alles

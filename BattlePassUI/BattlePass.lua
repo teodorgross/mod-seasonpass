@@ -1354,12 +1354,12 @@ local shopLabel = cShop:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
 shopLabel:SetPoint("TOP", 0, -118)
 
 local shopPageText = cShop:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-shopPageText:SetPoint("TOPRIGHT", -96, -128)
+shopPageText:SetPoint("TOP", 0, -144)
 
 local shopPrev = CreateFrame("Button", nil, cShop)
 shopPrev:SetWidth(26)
 shopPrev:SetHeight(26)
-shopPrev:SetPoint("TOPRIGHT", -160, -120)
+shopPrev:SetPoint("TOP", -220, -136)
 shopPrev:SetNormalTexture("Interface\\Buttons\\UI-SpellbookIcon-PrevPage-Up")
 shopPrev:SetPushedTexture("Interface\\Buttons\\UI-SpellbookIcon-PrevPage-Down")
 shopPrev:SetDisabledTexture("Interface\\Buttons\\UI-SpellbookIcon-PrevPage-Disabled")
@@ -1367,7 +1367,7 @@ shopPrev:SetDisabledTexture("Interface\\Buttons\\UI-SpellbookIcon-PrevPage-Disab
 local shopNext = CreateFrame("Button", nil, cShop)
 shopNext:SetWidth(26)
 shopNext:SetHeight(26)
-shopNext:SetPoint("TOPRIGHT", -60, -120)
+shopNext:SetPoint("TOP", 220, -136)
 shopNext:SetNormalTexture("Interface\\Buttons\\UI-SpellbookIcon-NextPage-Up")
 shopNext:SetPushedTexture("Interface\\Buttons\\UI-SpellbookIcon-NextPage-Down")
 shopNext:SetDisabledTexture("Interface\\Buttons\\UI-SpellbookIcon-NextPage-Disabled")
@@ -1389,7 +1389,7 @@ for i = 1, SHOP_PER_PAGE do
     local row = math.floor((i - 1) / 10)
     local sname = "BPShopBtn" .. i
     local b = CreateFrame("Button", sname, cShop, "ItemButtonTemplate")
-    b:SetPoint("TOPLEFT", 60 + col * 64, -160 - row * 56)
+    b:SetPoint("TOPLEFT", 60 + col * 64, -174 - row * 56)
     b.iconTex = _G[sname .. "IconTexture"]
     b:SetScript("OnClick", function(self)
         if self.shopSlot then

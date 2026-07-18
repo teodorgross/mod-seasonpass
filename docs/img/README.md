@@ -10,5 +10,8 @@ Drop the screenshots referenced by the READMEs here, using these file names:
 | `events.png` | Live Events tab |
 | `character.png` | Character tab |
 | `chests.png` | Chests tab (loot preview) or the chest-opening animation |
+| `prestige.png` | Prestige tab (Dream Forge paragon stats) |
+| `shop.png` | Shop tab with the Dream Chest |
+| `welcome.png` | Rewards tab with the welcome-package tooltip |
 
 PNG or JPG, any resolution — GitHub scales them in the tables.

@@ -33,6 +33,10 @@ Season 1: **“Call of the Nightmare Dragons”** (*Ruf der Alptraumdrachen*).
 |---|---|---|
 | ![Events](docs/img/events.png) | ![Character](docs/img/character.png) | ![Chests](docs/img/chests.png) |
 
+| Prestige (Dream Forge) | Shop | Welcome package |
+|---|---|---|
+| ![Prestige](docs/img/prestige.png) | ![Shop](docs/img/shop.png) | ![Welcome](docs/img/welcome.png) |
+
 ---
 
 ## Feature overview — really everything

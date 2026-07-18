@@ -1462,9 +1462,9 @@ local RAR_HEX = { "ffffff", "0070dd", "a335ee", "ff8000" }
 local RAR_RGB = { {1, 1, 1}, {0, 0.44, 0.87}, {0.64, 0.21, 0.93}, {1, 0.5, 0} }
 
 local ktHead = cChest:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
-ktHead:SetPoint("TOP", 0, -96)
+ktHead:SetPoint("TOP", 0, -118)
 local ktInfo = cChest:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-ktInfo:SetPoint("TOP", 0, -150)
+ktInfo:SetPoint("TOP", 0, -166)
 local ktFever = cChest:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
 ktFever:SetPoint("BOTTOM", 0, 48)
 
@@ -1475,7 +1475,7 @@ for i = 1, 3 do
     local b = CreateFrame("Button", nil, cChest, "UIPanelButtonTemplate")
     b:SetWidth(190)
     b:SetHeight(22)
-    b:SetPoint("TOP", (i - 2) * 200, -122)
+    b:SetPoint("TOP", (i - 2) * 200, -142)
     b:SetScript("OnClick", function()
         PlaySound("igAbiliityPageTurn")
         ktSel = i
@@ -1544,7 +1544,7 @@ RefreshChestTab = function()
     end
 
     local used, usedH = 0, 0
-    local y = -172
+    local y = -188
     for rar = 1, 4 do
         usedH = usedH + 1
         local h = KtHeader(usedH)
@@ -1638,9 +1638,9 @@ local pgUI = { rows = {}, per = { 1, 1, 2, 2, 1, 1, 1, 1 },
               "Spell_Holy_FlashHeal", "INV_Misc_Book_07" } }
 
 pgUI.head = cPara:CreateFontString(nil, "OVERLAY", "GameFontNormalLarge")
-pgUI.head:SetPoint("TOP", 0, -96)
+pgUI.head:SetPoint("TOP", 0, -118)
 pgUI.sub = cPara:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-pgUI.sub:SetPoint("TOP", 0, -122)
+pgUI.sub:SetPoint("TOP", 0, -140)
 pgUI.info = cPara:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
 pgUI.info:SetPoint("BOTTOM", 0, 52)
 pgUI.info:SetWidth(620)
@@ -1651,7 +1651,7 @@ for i = 1, 8 do
     local row = CreateFrame("Frame", nil, cPara)
     row:SetWidth(330)
     row:SetHeight(56)
-    row:SetPoint("TOPLEFT", 55 + col * 350, -152 - rowN * 62)
+    row:SetPoint("TOPLEFT", 55 + col * 350, -166 - rowN * 62)
     local icon = row:CreateTexture(nil, "ARTWORK")
     icon:SetWidth(30)
     icon:SetHeight(30)

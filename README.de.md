@@ -33,6 +33,10 @@ Saison 1: **„Ruf der Alptraumdrachen"** (*Call of the Nightmare Dragons*).
 |---|---|---|
 | ![Events](docs/img/events.png) | ![Charakter](docs/img/character.png) | ![Kisten](docs/img/chests.png) |
 
+| Prestige (Traumschmiede) | Shop | Willkommenspaket |
+|---|---|---|
+| ![Prestige](docs/img/prestige.png) | ![Shop](docs/img/shop.png) | ![Willkommen](docs/img/welcome.png) |
+
 ---
 
 ## Feature-Überblick — wirklich alles
